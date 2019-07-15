@@ -1,16 +1,17 @@
-﻿using BootstrapFormHelper.Fields;
+﻿using BootstrapHtmlHelper.FormHelper.Fields;
 using System;
 using System.Collections.Generic;
 
-namespace BootstrapFormHelper
+namespace BootstrapHtmlHelper.FormHelper
 {
     public class Form
     {
         public List<Object> Elements = new List<Object>();
         private Object _model;
         public string scripts="";
-        private string _action = "";
-        private string _method = "";
+        private string _action = "?";
+        private string _method = "POST";
+        private bool _upload = false;
 
         public Form Action(string action)
         {
@@ -36,21 +37,46 @@ namespace BootstrapFormHelper
             return this;
         }
 
+        public Form Select(string field, string label, List<Option> options)
+        {
+            Elements.Add(new Select(field, label, options));
+            return this;
+        }
+
         public Form MultipleSelect(string field, string label, List<Option> options)
         {
             Elements.Add(new MultipleSelect(field, label, options));
             return this;
         }
 
+        public Form Textarea(string field, string label)
+        {
+            Elements.Add(new Textarea(field, label));
+            return this;
+        }
+
         public string GetContent()
         {
-            string ct = "<form action=\"" + _action + "\" pjax-container>"
-                            +"< div  validation-summary = \"ModelOnly\" class=\"text-danger\"></div>";
+            string elements = "";
             foreach(Field item in Elements)
             {
-                ct += item.Content();
+                elements += item.Content();
                 scripts += item.Script();
+                if(item is Image && _upload == false)
+                {
+                    _upload = true;
+                }
             }
+
+            string enctype = ""; 
+            if (_upload)
+            {
+                enctype = "enctype='multipart/form-data'";
+                
+            }
+            string ct = "<form action='" + _action + "' pjax-container method='" + _method + "' " + enctype + " >"
+                                + "<div  validation-summary ='ModelOnly' class='text-danger'></div>";
+            ct += elements;
             ct += "<button type=\"submit\" class=\"btn btn-primary\">提交</button>";
             ct += "</form>";
             return ct;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BootstrapFormHelper
+namespace BootstrapHtmlHelper.FormHelper
 {
     public class Option
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BootstrapFormHelper.Fields
+namespace BootstrapHtmlHelper.FormHelper.Fields
 {
     class Password:Field
     {

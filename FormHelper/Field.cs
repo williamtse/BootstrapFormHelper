@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BootstrapFormHelper
+namespace BootstrapHtmlHelper.FormHelper
 {
     public abstract class Field
     {
@@ -12,7 +12,7 @@ namespace BootstrapFormHelper
         protected string _value { get; set; }
         public abstract string Content();
 
-        public string Script()
+        public virtual string Script()
         {
             return "";
         }
