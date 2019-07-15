@@ -4,7 +4,11 @@ using System.Text;
 
 namespace BootstrapFormHelper.Fields
 {
-    class Image
+    class Image : Field
     {
+        public override string Content()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
