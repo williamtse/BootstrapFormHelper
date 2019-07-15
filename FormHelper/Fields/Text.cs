@@ -1,4 +1,4 @@
-﻿namespace BootstrapFormHelper.Fields
+﻿namespace BootstrapHtmlHelper.FormHelper.Fields
 {
     public class Text:Field
     {
