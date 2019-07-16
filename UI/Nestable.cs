@@ -5,19 +5,22 @@ using System.Text;
 
 namespace BootstrapHtmlHelper.UI
 {
-    public delegate string TreeNodeHandler(Node node);
-    public class Nestable : UIBase
+    public abstract class Nestable : UIBase
     {
-        private List<Node> _nodes;
-        private string html="";
-        private string _id = "";
-        private TreeNodeHandler _handle;
-        public Nestable(List<Node> nodes, string id, TreeNodeHandler nodeHandler=null)
+        protected List<Node> _nodes;
+        protected string html="";
+        protected string _id = "";
+        protected string ModelName;
+        public Nestable() { }
+        public Nestable(List<Node> nodes, string id)
         {
             Builder builder = new Builder(nodes);
             _nodes = builder.getTree();
             _id = id;
-            _handle = nodeHandler;
+        }
+        public void setModelName(string modelName)
+        {
+            ModelName = modelName;
         }
         public override string GetContent()
         {
@@ -33,14 +36,9 @@ namespace BootstrapHtmlHelper.UI
             {
                 html += "<li class=\"dd-item\" data-id=\"" + node.ID + "\">"
                           + "<div class=\"dd-handle\">";
-                if (_handle!=null)
-                {
-                    html += _handle(node);
-                }
-                else
-                {
-                    html += node.Title;
-                }
+
+                html += _handle(node);
+                
                 html += "</div>";
                        
                 if (node.SubItems != null && node.SubItems.Count > 0)
@@ -55,5 +53,7 @@ namespace BootstrapHtmlHelper.UI
                 }
             }
         }
+
+        protected abstract string _handle(Node node);
     }
 }

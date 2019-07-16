@@ -99,7 +99,7 @@ namespace BootstrapHtmlHelper.FormHelper
                 enctype = "enctype='multipart/form-data'";
                 
             }
-            string ct = "<form action='" + _action + "' pjax-container method='" + _method + "' " + enctype + " >"
+            string ct = "<form action='" + _action + "' pjax-container='1' method='" + _method + "' " + enctype + " >"
                                 + "<div  validation-summary ='ModelOnly' class='text-danger'></div>";
             string hiddenID = "";
             if (_model != null)
