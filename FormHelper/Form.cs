@@ -1,4 +1,5 @@
 ﻿using BootstrapHtmlHelper.FormHelper.Fields;
+using BootstrapHtmlHelper.Util.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,12 @@ namespace BootstrapHtmlHelper.FormHelper
             return this;
         }
 
+        public Form<T> TreeSelect(string field, string label, List<Node> tree)
+        {
+            Elements.Add(new TreeSelect(field, label, tree));
+            return this;
+        }
+
         public Form<T> Textarea(string field, string label)
         {
             Elements.Add(new Textarea(field, label));
@@ -60,8 +67,12 @@ namespace BootstrapHtmlHelper.FormHelper
         {
             var t = _model.GetType();
             var p = t.GetProperty(field);
-            string v = Convert.ToString(p.GetValue(_model, null));
-            return v;
+            if(p != null)
+            {
+                var vv = p.GetValue(_model, null);
+                return Convert.ToString(vv);
+            }
+            return null;
         }
 
         public string GetContent()
@@ -102,7 +113,7 @@ namespace BootstrapHtmlHelper.FormHelper
             ct += "<button type=\"submit\" class=\"btn btn-primary\">提交</button>";
             ct += "</form>";
 
-            scripts += ";$('[name=__RequestVerificationToken]').val(LA)";
+            scripts += ";$('[name=__RequestVerificationToken]').val(LA);";
             return ct;
         }
 

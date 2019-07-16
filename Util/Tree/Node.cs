@@ -10,7 +10,7 @@ namespace BootstrapHtmlHelper.Util.Tree
         public string Title { get; set; }
         public int ID { get; set; }
         public List<Node> SubItems { get; set; }
-
         public string Icon { get; set; }
+        public int Level { get; set; }
     }
 }

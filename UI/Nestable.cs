@@ -14,7 +14,8 @@ namespace BootstrapHtmlHelper.UI
         private TreeNodeHandler _handle;
         public Nestable(List<Node> nodes, string id, TreeNodeHandler nodeHandler=null)
         {
-            _nodes = Builder.getTree(nodes);
+            Builder builder = new Builder(nodes);
+            _nodes = builder.getTree();
             _id = id;
             _handle = nodeHandler;
         }

@@ -36,7 +36,7 @@ namespace BootstrapHtmlHelper.FormHelper.Fields
 
         public override string Script()
         {
-            string script = "";
+            string script = ";";
             if (_value != null)
             {
                 script += "$('." + _field + "').val('" + _value + "'.split(',')).trigger('change');";

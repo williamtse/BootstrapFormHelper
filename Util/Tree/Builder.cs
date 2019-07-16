@@ -7,23 +7,30 @@ namespace BootstrapHtmlHelper.Util.Tree
 {
     class Builder
     {
-        public static List<Node> getTree(List<Node> _items)
+        private List<Node> _items;
+        public Builder(List<Node> list)
         {
-            var dic = new Dictionary<int, Node>(_items.Count);
-            foreach (var item in _items)
+            _items = list;
+            
+        }
+
+        public List<Node> getTree()
+        {
+            Node root = new Node { ID = 0, ParentID = 0, SubItems=new List<Node>() };
+            BuildTree(root, 0);
+            return root.SubItems;
+        }
+        public void BuildTree(Node root, int ParentID)
+        {
+            foreach(Node item in _items)
             {
-                dic.Add(item.ID, item);
-            }
-            foreach (var item in dic.Values)
-            {
-                if (dic.ContainsKey(item.ParentID))
+                if (item.ParentID == ParentID)
                 {
-                    if (dic[item.ParentID].SubItems == null)
-                        dic[item.ParentID].SubItems = new List<Node>();
-                    dic[item.ParentID].SubItems.Add(item);
+                    item.SubItems = new List<Node>();
+                    root.SubItems.Add(item);
+                    BuildTree(item, item.ID);
                 }
             }
-            return dic.Values.Where(t => t.ParentID == 0).ToList();
         }
     }
 }
