@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BootstrapHtmlHelper.Util.Tree
 {
-    class Builder
+    public class Builder
     {
         private List<Node> _items;
         public Builder(List<Node> list)
