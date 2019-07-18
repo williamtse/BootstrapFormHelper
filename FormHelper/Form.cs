@@ -32,9 +32,9 @@ namespace BootstrapHtmlHelper.FormHelper
             return this;
         }
 
-        public Form<T> Text(string field, string label)
+        public Form<T> Text(string field, string label, bool required=false, string type = "text")
         {
-            Text text = new Text(field, label);
+            Text text = new Text(field, label, type, required);
             Elements.Add(text);
             return this;
         }
