@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BootstrapHtmlHelper.FormHelper.Fields
 {
-    class Password:Field
+    public class Password :Field
     {
         public Password(string field, string label)
         {

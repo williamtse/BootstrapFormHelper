@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BootstrapHtmlHelper.FormHelper.Fields
 {
-    class MultipleSelect : Field
+    public class MultipleSelect : Field
     {
         public List<Option> _options = new List<Option>();
         public MultipleSelect(string field, string label, List<Option> options)
@@ -15,11 +15,6 @@ namespace BootstrapHtmlHelper.FormHelper.Fields
         }
         public override string Content()
         {
-            string val = "";
-            if (_value != null)
-            {
-                val = "value=\"" + _value + "\"";
-            }
             string html = "<div class='form-group'>"
                 + "<label for=\"" + _field + "\" class=\"control-label\">" + _label + "</label>"
                 + "<select class=\"form-control " + _field + "\" multiple=\"multiple\">";

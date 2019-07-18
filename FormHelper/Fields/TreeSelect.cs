@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BootstrapHtmlHelper.FormHelper.Fields
 {
-    class TreeSelect : Field
+    public class TreeSelect : Field
     {
         public List<Node> _tree = new List<Node>();
         private string html = "";

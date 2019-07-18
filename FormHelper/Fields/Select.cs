@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BootstrapHtmlHelper.FormHelper.Fields
 {
-    class Select:Field
+    public class Select :Field
     {
         public List<Option> _options = new List<Option>();
         public Select(string field, string label, List<Option> options)
@@ -22,13 +22,14 @@ namespace BootstrapHtmlHelper.FormHelper.Fields
             }
             string html = "<div class='form-group'>"
                 + "<label for=\"" + _field + "\" class=\"control-label\">" + _label + "</label>"
-                + "<select class=\"form-control ." + _field + "\" >";
+                + "<select name='" + _field + "' class=\"form-control " + _field + "\" >"
+                +"<option value></option>";
             foreach (Option option in _options)
             {
-                html += "< option value = \"" + option.value + "\" > " + option.text + " </ option >";
+                html += "<option value = \"" + option.value + "\" > " + option.text + " </option >";
             }
-            html += "</ select >"
-                    + "< input name= \"" + _field + "\" type = \"hidden\" class=\"form-control\" />"
+            html += "</select >"
+                    + "<input name= \"" + _field + "\" type = \"hidden\" class=\"form-control\" />"
                 + "<span validation-for=\"" + _field + "\" class=\"text-danger\"></span>"
             + "</div>";
             return html;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BootstrapHtmlHelper.FormHelper.Fields
 {
-    class Textarea : Field
+    public class Textarea : Field
     {
         public Textarea(string field, string label)
         {

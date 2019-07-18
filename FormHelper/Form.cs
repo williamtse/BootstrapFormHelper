@@ -3,6 +3,7 @@ using BootstrapHtmlHelper.Util.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace BootstrapHtmlHelper.FormHelper
 {
@@ -15,51 +16,38 @@ namespace BootstrapHtmlHelper.FormHelper
         private string _method = "POST";
         private bool _upload = false;
 
-        public Form<T> Action(string action)
-        {
-            _action = action;
-            return this;
+        public Form(T model, Expression<Func<T, int>> TID) {
+            var id = GetID(model, TID);
+            if (id > 0)
+            {
+                _model = model;
+                _action = '/' + GetControllerName(model) + "/Edit/" + id.ToString();
+                _method = "PUT";
+            }
+            else
+            {
+                _action = '/' + GetControllerName(model) + "/Create";
+                _method = "POST";
+            }
+            
         }
 
-        public Form<T> Method(string method = "POST")
+        private int GetID(T model, Expression<Func<T, int>> TID)
         {
-            _method = method;
-            return this;
-        }
-        public Form<T> Edit(T model)
-        {
-            _model = model;
-            return this;
+            var func = TID.Compile();
+            return func(model);
         }
 
-        public Form<T> Text(string field, string label, bool required=false, string type = "text")
+        private string GetControllerName(T model)
         {
-            Text text = new Text(field, label, type, required);
-            Elements.Add(text);
-            return this;
+            string fullName = model.GetType().ToString();
+            string[] arr = fullName.Split('.');
+            return  arr.Last()+ "s";
         }
 
-        public Form<T> Select(string field, string label, List<Option> options)
+        public Form<T> AddField(Field field)
         {
-            Elements.Add(new Select(field, label, options));
-            return this;
-        }
-
-        public Form<T> MultipleSelect(string field, string label, List<Option> options)
-        {
-            Elements.Add(new MultipleSelect(field, label, options));
-            return this;
-        }
-
-        public Form<T> TreeSelect(string field, string label, List<Node> tree)
-        {
-            Elements.Add(new TreeSelect(field, label, tree));
-            return this;
-        }
-
-        public Form<T> Textarea(string field, string label)
-        {
-            Elements.Add(new Textarea(field, label));
+            Elements.Add(field);
             return this;
         }
 
@@ -71,6 +59,16 @@ namespace BootstrapHtmlHelper.FormHelper
             {
                 var vv = p.GetValue(_model, null);
                 return Convert.ToString(vv);
+            }
+            else
+            {
+                string method = "Get" + field;
+                var m = t.GetMethod(method);
+                if (m != null)
+                {
+                    var vv = m.Invoke(_model, null);
+                    return Convert.ToString(vv);
+                }
             }
             return null;
         }
