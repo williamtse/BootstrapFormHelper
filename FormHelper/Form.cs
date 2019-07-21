@@ -44,7 +44,7 @@ namespace BootstrapHtmlHelper.FormHelper
         {
             string fullName = model.GetType().ToString();
             string[] arr = fullName.Split('.');
-            return  arr.Last()+ "s";
+            return  arr.Last().Replace("ViewModel","") + "s";
         }
 
         public Form AddField(Field field)
