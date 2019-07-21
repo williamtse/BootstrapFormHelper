@@ -7,20 +7,22 @@ using System.Linq.Expressions;
 
 namespace BootstrapHtmlHelper.FormHelper
 {
-    public class Form<T>
+    public class Form
     {
         public List<Object> Elements = new List<Object>();
-        private T _model;
+        private Object _model;
+        private bool _isEdit=false;
         public string scripts = "";
         private string _action = "?";
         private string _method = "POST";
         private bool _upload = false;
-
-        public Form(T model, Expression<Func<T, int>> TID) {
-            var id = GetID(model, TID);
+        public Form Model(Object model, string ID)
+        {
+            _model = model;
+            int id = int.Parse(getModelFieldValue(ID));
             if (id > 0)
             {
-                _model = model;
+                _isEdit = true;
                 _action = '/' + GetControllerName(model) + "/Edit/" + id.ToString();
                 _method = "PUT";
             }
@@ -29,23 +31,23 @@ namespace BootstrapHtmlHelper.FormHelper
                 _action = '/' + GetControllerName(model) + "/Create";
                 _method = "POST";
             }
-            
+            return this;
         }
 
-        private int GetID(T model, Expression<Func<T, int>> TID)
+        private int GetID(Object model, Expression<Func<Object, int>> TID)
         {
             var func = TID.Compile();
             return func(model);
         }
 
-        private string GetControllerName(T model)
+        private string GetControllerName(Object model)
         {
             string fullName = model.GetType().ToString();
             string[] arr = fullName.Split('.');
             return  arr.Last()+ "s";
         }
 
-        public Form<T> AddField(Field field)
+        public Form AddField(Field field)
         {
             Elements.Add(field);
             return this;
@@ -78,7 +80,7 @@ namespace BootstrapHtmlHelper.FormHelper
             string elements = "";
             foreach(Field item in Elements)
             {
-                if (_model != null)
+                if (_isEdit)
                 {
                     string field = item.GetField();
                     item.setValue(getModelFieldValue(field));

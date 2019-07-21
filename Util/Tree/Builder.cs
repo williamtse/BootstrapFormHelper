@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace BootstrapHtmlHelper.Util.Tree
@@ -31,6 +32,26 @@ namespace BootstrapHtmlHelper.Util.Tree
                     BuildTree(item, item.ID);
                 }
             }
+        }
+
+        public static List<Node> ListToNodes<T>(List<T> list, 
+                Expression<Func<T, int>> TID,
+               Expression<Func<T, int>> TParentID,
+               Expression<Func<T, string>> TTitle)
+        {
+            List<Node> nodes = new List<Node>();
+            var func_TID = TID.Compile();
+            var func_TParentID = TParentID.Compile();
+            var func_TTitle = TTitle.Compile();
+            foreach (T m in list)
+            {
+                Node node = new Node();
+                node.ID = func_TID(m);
+                node.ParentID = func_TParentID(m);
+                node.Title = func_TTitle(m);
+                nodes.Add(node);
+            }
+            return nodes;
         }
     }
 }
