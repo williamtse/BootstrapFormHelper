@@ -26,7 +26,14 @@ namespace BootstrapHtmlHelper.FormHelper.Fields
         public override string Script()
         {
             var script = ";";
-            script += @"$('input." + _field + @"').fileinput({
+            string val = "";
+            if (_value!=null)
+            {
+                val = @" initialPreview: [  
+                 '<img src="""+ _value +@"""  class=""file-preview-image"">'  
+             ],";
+            }
+            script += @"$('input." + _field + @"').fileinput({"+ val +@"
 'overwriteInitial':true,
 'initialPreviewAsData':true,
 'browseLabel':'\u6d4f\u89c8',
